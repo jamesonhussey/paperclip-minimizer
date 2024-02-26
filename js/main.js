@@ -112,7 +112,7 @@ function handleGuess(guessedLetter) {
     // //verify that only 1 character has been guessed
     // if (guessedLetter.toString().length === 1) {
         guessedLetter = guessedLetter.toString().toLowerCase()
-        let guessedIndexes = getAllIndexes(guessedLetter)
+        let guessedIndexes = getAllIndexes(word2GuessArray, guessedLetter)
         if (guessedIndexes.length >= 1) {
             
             //updates wordProgress to fill in all blanks for guessed letter
