@@ -67,6 +67,7 @@ let victory = false
 const wordBlanksEl = document.querySelector('#letters-to-guess')
 const letterGuessInputEl = document.querySelector('#letter-guess')
 const letterGuessButtonEl = document.querySelector('#submit-btn2')
+const agiProgressEl = document.querySelector('#agi-progress')
 
 
 /* -- Event Listeners -- */
@@ -86,6 +87,7 @@ function init() {
     wordProgress.fill(' _ ')
 
     handleSpaces()
+    // handleGuess(',')
     updateBlanks(wordProgress)
     
 
@@ -97,7 +99,10 @@ function chooseWord() {
 }
 
 function updatePicture(livesLost) {
-    document.getElementById('agi-progress').src = './imgs/' + livesLost + '.png'
+    console.log(agiProgressEl.src)
+    agiProgressEl.src = 'imgs/' + livesLost + '.png'
+    console.log(livesLost)
+    console.log(agiProgressEl.src)
 }
 
 function handleSpaces() {
@@ -131,7 +136,7 @@ function handleGuess(guessedLetter) {
 }
 
 function updateBlanks(wordSoFar) {
-    wordBlanksEl.innerText = wordSoFar.toString().toUpperCase()
+    wordBlanksEl.innerText = wordSoFar.join('').toUpperCase()
 }
 
 function getAllIndexes(arr, val) {
