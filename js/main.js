@@ -1,16 +1,4 @@
 /* -- Constants --*/
-const LIVES_LOOKUP = {
-    0: {img: 'imgs/0.png'},
-    1: {img: 'imgs/1.png'},
-    2: {img: 'imgs/2.png'},
-    3: {img: 'imgs/3.png'},
-    4: {img: 'imgs/4.png'},
-    5: {img: 'imgs/5.png'},
-    6: {img: 'imgs/6.png'},
-    7: {img: 'imgs/7.png'},
-    8: {img: 'imgs/8.png'}
-}
-
 const ITEMS_LOOKUP = {
     bomb: {
         img: 'bomb.png',
@@ -71,7 +59,7 @@ const wordBlanksEl = document.querySelector('#letters-to-guess')
 const letterGuessInputEl = document.querySelector('#letter-guess')
 const letterGuessButtonEl = document.querySelector('#submit-btn2')
 const agiProgressEl = document.querySelector('#agi-progress > img')
-const lettersGuessedEl = document.querySelector('letters-already-guessed')
+const lettersGuessedEl = document.querySelector('#letters-already-guessed')
 const objectiveEl = document.querySelector('#objective')
 
 
@@ -95,9 +83,9 @@ function init() {
     handleSpaces()
     // handleGuess(',')
     updateBlanks(wordProgress)
-    
 
-    
+
+
 }
 
 function chooseWord() {
@@ -121,28 +109,24 @@ function handleLetterSubmitClick() {
 }
 
 function handleGuess(guessedLetter) {
-    // //verify that only 1 character has been guessed
-    // if (guessedLetter.toString().length === 1) {
-        guessedLetter = guessedLetter.toString().toLowerCase()
-        let guessedIndexes = getAllIndexes(word2GuessArray, guessedLetter)
-        if (guessedIndexes.length >= 1) {
-            
-            //updates wordProgress to fill in all blanks for guessed letter
-            guessedIndexes.forEach((guessedIndex) => wordProgress.splice(guessedIndex, 1, guessedLetter))
+    guessedLetter = guessedLetter.toString().toLowerCase()
+    let guessedIndexes = getAllIndexes(word2GuessArray, guessedLetter)
+    if (guessedIndexes.length >= 1) {
 
-            updateBlanks(wordProgress)
-            isThisLoss(word2Guess, wordProgress)
-        }
-        else {
-            livesLost++
-            updatePicture(livesLost)
-            isThisLoss(word2Guess, wordProgress)
-        }
-    // }
-    // else {
-    //     return
-    // }
-    
+        //updates wordProgress to fill in all blanks for guessed letter
+        guessedIndexes.forEach((guessedIndex) => wordProgress.splice(guessedIndex, 1, guessedLetter))
+
+        updateBlanks(wordProgress)
+        trackGuesses(guessedLetter)
+        isThisLoss(word2Guess, wordProgress)
+
+    }
+    else {
+        livesLost++
+        updatePicture(livesLost)
+        trackGuesses(guessedLetter)
+        isThisLoss(word2Guess, wordProgress)
+    }
 }
 
 function updateBlanks(wordSoFar) {
@@ -151,24 +135,32 @@ function updateBlanks(wordSoFar) {
 
 function getAllIndexes(arr, val) {
     let indexes = [], i = -1;
-    while ((i = arr.indexOf(val, i+1)) != -1){
+    while ((i = arr.indexOf(val, i + 1)) != -1) {
         indexes.push(i);
     }
     return indexes;
 }
 
-function isThisLoss(word2Guess, wordProgress) {
+function isThisLoss() {
     if (word2Guess.toString().toLowerCase() === wordProgress.toString().toLowerCase()) {
         victory = true
+        console.log('winned')
     }
     else {
         victory = false
     }
     if (livesLost >= lifeBank /* && victory !== true */) {
         loss = true
-        setTimeout(function() {
+        console.log('in loss')
+        setTimeout(function () {
             objectiveEl.innerText = 'Oh NO!!! The AGI made the whole world into paper clips! ): GAME OVER';
             agiProgressEl.src = 'paperclip.png'
-          }, 3000);
+        }, 3000);
     }
+}
+
+function trackGuesses(guessedLetter) {
+    lettersGuessed.push(guessedLetter)
+    console.log(lettersGuessed)
+    lettersGuessedEl.innerText = 'Letters Guessed So Far:' + lettersGuessed.join(' ')
 }
