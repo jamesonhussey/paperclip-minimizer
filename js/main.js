@@ -51,7 +51,7 @@ const WORDS_LOOKUP = [
     'super intelligence',
     'facial recognition',
     'autonomous weapon systems',
-    
+    'hello world'
 ]
 
 
@@ -61,13 +61,18 @@ let livesLost
 let word2Guess
 let wordProgress
 let victory = false
+let loss = false
+let lettersGuessed = []
+let lifeBank
 
 
 /* -- Cached Element References -- */
 const wordBlanksEl = document.querySelector('#letters-to-guess')
 const letterGuessInputEl = document.querySelector('#letter-guess')
 const letterGuessButtonEl = document.querySelector('#submit-btn2')
-const agiProgressEl = document.querySelector('#agi-progress')
+const agiProgressEl = document.querySelector('#agi-progress > img')
+const lettersGuessedEl = document.querySelector('letters-already-guessed')
+const objectiveEl = document.querySelector('#objective')
 
 
 /* -- Event Listeners -- */
@@ -80,6 +85,7 @@ letterGuessButtonEl.addEventListener('click', handleLetterSubmitClick)
 init()
 
 function init() {
+    lifebank = 2
     livesLost = 0
     chooseWord()
     word2GuessArray = Array.from(word2Guess)
@@ -125,15 +131,18 @@ function handleGuess(guessedLetter) {
             guessedIndexes.forEach((guessedIndex) => wordProgress.splice(guessedIndex, 1, guessedLetter))
 
             updateBlanks(wordProgress)
+            isThisLoss(word2Guess, wordProgress)
         }
         else {
             livesLost++
             updatePicture(livesLost)
+            isThisLoss(word2Guess, wordProgress)
         }
     // }
     // else {
     //     return
     // }
+    
 }
 
 function updateBlanks(wordSoFar) {
@@ -148,11 +157,18 @@ function getAllIndexes(arr, val) {
     return indexes;
 }
 
-function checkWin(word2Guess, wordProgress) {
+function isThisLoss(word2Guess, wordProgress) {
     if (word2Guess.toString().toLowerCase() === wordProgress.toString().toLowerCase()) {
         victory = true
     }
     else {
         victory = false
+    }
+    if (livesLost >= lifeBank /* && victory !== true */) {
+        loss = true
+        setTimeout(function() {
+            objectiveEl.innerText = 'Oh NO!!! The AGI made the whole world into paper clips! ): GAME OVER';
+            agiProgressEl.src = 'paperclip.png'
+          }, 3000);
     }
 }
