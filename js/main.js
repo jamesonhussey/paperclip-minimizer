@@ -63,6 +63,7 @@ const letterGuessButtonEl = document.querySelector('#submit-btn2')
 const answerGuessInputEl = document.querySelector('#fanswer')
 const answerGuessButtonEl = document.querySelector('#submit-btn1')
 const agiProgressEl = document.querySelector('#agi-progress > img')
+const scoreCounterEl = document.querySelector('#agi-progress > aside')
 const lettersGuessedEl = document.querySelector('#letters-already-guessed')
 const objectiveEl = document.querySelector('#objective')
 
@@ -113,6 +114,8 @@ function handleLetterSubmitClick() {
 
 function handleAnswerSubmitClick() {
     if (word2Guess.toLowerCase() === answerGuessInputEl.value.toLowerCase()) {
+        updateBlanks(word2GuessArray)
+        console.log('Guessed answer correctly')
         copeWithVictory()
     }
 
@@ -122,7 +125,9 @@ function copeWithVictory() {
     victory = true
     console.log('winned')
     score++
+    scoreCounterEl.innerText = 'Score: ' + score
     answerGuessInputEl.value = ''
+    lettersGuessed = ['']
     setTimeout(function () {
         init()
     }, 4500);
@@ -195,6 +200,7 @@ function isThisLoss() {
 
 
 function trackGuesses(guessedLetter) {
+    lettersGuessed.push(' ')
     lettersGuessed.push(guessedLetter)
     console.log(lettersGuessed)
     lettersGuessedEl.innerText = 'Letters Guessed So Far:' + lettersGuessed.join(' ')

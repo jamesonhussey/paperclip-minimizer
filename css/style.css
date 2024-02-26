@@ -21,7 +21,15 @@ body {
 #agi-progress {
     display: flex;
     /* transform: scale(.45); */
+    justify-content: space-evenly;
+}
+
+#score-counter {
+    display: flex;
     justify-content: center;
+    align-content: center;
+    color: white;
+    font-size: 1.4rem;
 }
 
 #letters-to-guess {
