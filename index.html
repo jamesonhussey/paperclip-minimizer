@@ -8,6 +8,10 @@
     <script defer src="js/main.js"></script>
 </head>
 <body>
+
+    <!-- The following commented out HTML would be for a "party mode" where 
+    the players enter words for others to guess (screen share, projector, etc.) -->
+
     <!-- <div id = "top">
         <div>
             <label for = "nanswer">Enter New Word(s) to Guess:</label>
@@ -30,12 +34,14 @@
 
     <div id="bottom">
         <div>
-        <label for = "fanswer">Guess Full Answer:</label>
-        <input type = "text" id="fanswer" placeholder="Instant Loss if Wrong...">
+        <!-- <label for = "fanswer">Guess Full Answer:</label> -->
+            <input type = "text" id="fanswer" placeholder="Hope You're Sure...">
+            <input type="button" id="submit-btn1" value="Submit Full Answer Guess">
         </div>
         <div>
-            <label for = "letter-guess">Guess Letter:</label>
-            <input type = "text" id="letter-guess" placeholder="Enter One Letter...">
+            <!-- <label for = "letter-guess">Guess Letter:</label> -->
+            <input type = "text" id="letter-guess" placeholder="Enter One Letter..." maxlength="1">
+            <input type="button" id="submit-btn2" value="Submit Letter Guess">
         </div>
         <div id="item-shop">
             SAMPLE ITEM SHOP

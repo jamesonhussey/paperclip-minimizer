@@ -36,3 +36,9 @@ body {
     justify-content: space-evenly;
     color: white;
 }
+
+#submit-btn1, #submit-btn2 {
+    border-radius: 8px;
+    font-size: 1rem;
+}
+

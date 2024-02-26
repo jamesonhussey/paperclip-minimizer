@@ -23,6 +23,7 @@ const ITEMS_LOOKUP = {
     },
 }
 
+//is there a way to put this on a different file or something
 const WORDS_LOOKUP = [
     'artificial intelligence',
     'large language model',
@@ -42,7 +43,15 @@ const WORDS_LOOKUP = [
     'natural language',
     'Eliezer Yudkowsky',
     'Sam Altman',
-    ''
+    'pattern recognition',
+    'deepfakes',
+    'election',
+    'dead internet theory',
+    'predictive',
+    'super intelligence',
+    'facial recognition',
+    'autonomous weapon systems',
+    
 ]
 
 
@@ -51,16 +60,18 @@ const WORDS_LOOKUP = [
 let livesLost
 let word2Guess
 let wordProgress
-// let victory = false
+let victory = false
 
 
 /* -- Cached Element References -- */
 const wordBlanksEl = document.querySelector('#letters-to-guess')
+const letterGuessInputEl = document.querySelector('#letter-guess')
+const letterGuessButtonEl = document.querySelector('#submit-btn2')
 
 
 /* -- Event Listeners -- */
 
-//document.querySelector('').addEventListener('click', handleChoice)
+
 
 
 /* -- Functions -- */
@@ -69,43 +80,58 @@ init()
 
 function init() {
     livesLost = 0
-    
-
-    word2Guess = 'SEI ROCKS'
+    chooseWord()
     word2GuessArray = Array.from(word2Guess)
-    wordProgress = word2GuessArray.fill(' _ ')
+    wordProgress = word2GuessArray.slice()
+    wordProgress.fill(' _ ')
+
+    handleSpaces()
+    updateBlanks(wordProgress)
+    
 
     
 }
 
 function chooseWord() {
-    word2Guess = WORDS_LOOKUP[Math.floor(Math.random() * WORDS_LOOKUP.length)]
+    word2Guess = WORDS_LOOKUP[Math.floor(Math.random() * WORDS_LOOKUP.length)].toLowerCase()
 }
 
 function updatePicture(livesLost) {
     document.getElementById('agi-progress').src = './imgs/' + livesLost + '.png'
 }
 
+function handleSpaces() {
+    handleGuess(' ')
+}
+
+function getGuessedLetter() {
+
+}
+
 function handleGuess(guessedLetter) {
-    //verify that only 1 character has been guessed
-    if (guessedLetter.toString().length === 1) {
-        guessedLetter = guessedLetter.toLowerCase()
+    // //verify that only 1 character has been guessed
+    // if (guessedLetter.toString().length === 1) {
+        guessedLetter = guessedLetter.toString().toLowerCase()
         let guessedIndexes = getAllIndexes(guessedLetter)
         if (guessedIndexes.length >= 1) {
             
             //updates wordProgress to fill in all blanks for guessed letter
             guessedIndexes.forEach((guessedIndex) => wordProgress.splice(guessedIndex, 1, guessedLetter))
 
-            updateBlanks()
+            updateBlanks(wordProgress)
         }
         else {
             livesLost++
             updatePicture(livesLost)
         }
-    }
-    else {
-        return
-    }
+    // }
+    // else {
+    //     return
+    // }
+}
+
+function updateBlanks(wordSoFar) {
+    wordBlanksEl.innerText = wordSoFar.toString().toUpperCase()
 }
 
 function getAllIndexes(arr, val) {
@@ -116,3 +142,11 @@ function getAllIndexes(arr, val) {
     return indexes;
 }
 
+function checkWin(word2Guess, wordProgress) {
+    if (word2Guess.toString().toLowerCase() === wordProgress.toString().toLowerCase()) {
+        victory = true
+    }
+    else {
+        victory = false
+    }
+}
