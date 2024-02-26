@@ -20,6 +20,7 @@ body {
 
 #agi-progress {
     display: flex;
+    /* transform: scale(.45); */
     justify-content: center;
 }
 

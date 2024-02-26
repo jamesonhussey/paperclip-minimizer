@@ -39,7 +39,8 @@ const WORDS_LOOKUP = [
     'super intelligence',
     'facial recognition',
     'autonomous weapon systems',
-    'hello world'
+    'hello world',
+    'air gapping'
 ]
 
 
@@ -52,12 +53,15 @@ let victory = false
 let loss = false
 let lettersGuessed = []
 let lifeBank
+let score = 0
 
 
 /* -- Cached Element References -- */
 const wordBlanksEl = document.querySelector('#letters-to-guess')
 const letterGuessInputEl = document.querySelector('#letter-guess')
 const letterGuessButtonEl = document.querySelector('#submit-btn2')
+const answerGuessInputEl = document.querySelector('#fanswer')
+const answerGuessButtonEl = document.querySelector('#submit-btn1')
 const agiProgressEl = document.querySelector('#agi-progress > img')
 const lettersGuessedEl = document.querySelector('#letters-already-guessed')
 const objectiveEl = document.querySelector('#objective')
@@ -66,14 +70,17 @@ const objectiveEl = document.querySelector('#objective')
 /* -- Event Listeners -- */
 
 letterGuessButtonEl.addEventListener('click', handleLetterSubmitClick)
-
+answerGuessButtonEl.addEventListener('click', handleAnswerSubmitClick)
 
 /* -- Functions -- */
 
 init()
 
 function init() {
-    lifebank = 2
+    objectiveEl.innerText = '!! GUESS LETTERS TO PREVENT THE NARROW AI FROM BECOMING AGI !!';
+    objectiveEl.style.color = "white"
+
+    lifeBank = 8
     livesLost = 0
     chooseWord()
     word2GuessArray = Array.from(word2Guess)
@@ -81,11 +88,8 @@ function init() {
     wordProgress.fill(' _ ')
 
     handleSpaces()
-    // handleGuess(',')
     updateBlanks(wordProgress)
-
-
-
+    updatePicture(livesLost)
 }
 
 function chooseWord() {
@@ -95,7 +99,6 @@ function chooseWord() {
 function updatePicture(livesLost) {
     console.log(agiProgressEl.src)
     agiProgressEl.src = 'imgs/' + livesLost + '.png'
-    console.log(livesLost)
     console.log(agiProgressEl.src)
 }
 
@@ -107,6 +110,38 @@ function handleLetterSubmitClick() {
     handleGuess(letterGuessInputEl.value.toString())
     letterGuessInputEl.value = ''
 }
+
+function handleAnswerSubmitClick() {
+    if (word2Guess.toLowerCase() === answerGuessInputEl.value.toLowerCase()) {
+        copeWithVictory()
+    }
+
+}
+
+function copeWithVictory() {
+    victory = true
+    console.log('winned')
+    score++
+    answerGuessInputEl.value = ''
+    setTimeout(function () {
+        init()
+    }, 4500);
+}
+
+function copeWithDefeat() {
+    loss = true
+    console.log('is loss')
+    setTimeout(function () {
+        objectiveEl.innerText = 'Oh NO!!! The AGI made the whole world into paper clips! ): GAME OVER...';
+        objectiveEl.style.color = "darkred"
+        agiProgressEl.src = 'imgs/paperclip.png'
+    }, 3000);
+
+    setTimeout(function () {
+        init()
+    }, 10000);
+}
+
 
 function handleGuess(guessedLetter) {
     guessedLetter = guessedLetter.toString().toLowerCase()
@@ -123,6 +158,7 @@ function handleGuess(guessedLetter) {
     }
     else {
         livesLost++
+        console.log('livesLost: ' + livesLost)
         updatePicture(livesLost)
         trackGuesses(guessedLetter)
         isThisLoss(word2Guess, wordProgress)
@@ -142,22 +178,21 @@ function getAllIndexes(arr, val) {
 }
 
 function isThisLoss() {
-    if (word2Guess.toString().toLowerCase() === wordProgress.toString().toLowerCase()) {
-        victory = true
-        console.log('winned')
+    console.log('word2Guess: ' + word2Guess)
+    console.log('wordProgress: ' + wordProgress)
+    if (word2Guess.toLowerCase() === wordProgress.join('').toLowerCase()) {
+        copeWithVictory()
     }
     else {
         victory = false
+        console.log('No win yet')
+        console.log(livesLost + ' out of ' + lifeBank + ' lives lost.')
     }
     if (livesLost >= lifeBank /* && victory !== true */) {
-        loss = true
-        console.log('in loss')
-        setTimeout(function () {
-            objectiveEl.innerText = 'Oh NO!!! The AGI made the whole world into paper clips! ): GAME OVER';
-            agiProgressEl.src = 'paperclip.png'
-        }, 3000);
+        copeWithDefeat()
     }
 }
+
 
 function trackGuesses(guessedLetter) {
     lettersGuessed.push(guessedLetter)
