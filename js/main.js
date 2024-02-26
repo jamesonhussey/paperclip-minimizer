@@ -72,7 +72,7 @@ const agiProgressEl = document.querySelector('#agi-progress')
 
 /* -- Event Listeners -- */
 
-
+letterGuessButtonEl.addEventListener('click', handleLetterSubmitClick)
 
 
 /* -- Functions -- */
@@ -109,8 +109,9 @@ function handleSpaces() {
     handleGuess(' ')
 }
 
-function getGuessedLetter() {
-
+function handleLetterSubmitClick() {
+    handleGuess(letterGuessInputEl.value.toString())
+    letterGuessInputEl.value = ''
 }
 
 function handleGuess(guessedLetter) {
