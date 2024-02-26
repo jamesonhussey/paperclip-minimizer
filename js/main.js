@@ -43,6 +43,23 @@ const WORDS_LOOKUP = [
     'air gapping'
 ]
 
+const VICTORY_PHRASE_LOOKUP = [
+    'WELL DONE',
+    'VOCTORY',
+    'INEVITABLE: DELAYED',
+    'WELL PLAYED',
+    'GGEZ',
+    'YOU WON !!!',
+    'NICE',
+    'GOOD JOB',
+    'SLAY, QUEEN',
+    'WELL PLAYED',
+    'THANK GOD, YOU SAVED THE WORLD',
+    'OK',
+    'GAME WON',
+    'GREAT ENEMY FELLED',
+]
+
 
 /* -- State Variables -- */
 
@@ -97,6 +114,10 @@ function chooseWord() {
     word2Guess = WORDS_LOOKUP[Math.floor(Math.random() * WORDS_LOOKUP.length)].toLowerCase()
 }
 
+function chooseVictoryPhrase() {
+    victoryPhrase = VICTORY_PHRASE_LOOKUP[Math.floor(Math.random() * VICTORY_PHRASE_LOOKUP.length)]
+}
+
 function updatePicture(livesLost) {
     console.log(agiProgressEl.src)
     agiProgressEl.src = 'imgs/' + livesLost + '.png'
@@ -123,10 +144,16 @@ function handleAnswerSubmitClick() {
 
 function copeWithVictory() {
     victory = true
+    let victoryPhrase = ''
+    chooseVictoryPhrase()
     console.log('winned')
     score++
     scoreCounterEl.innerText = 'Score: ' + score
     answerGuessInputEl.value = ''
+    objectiveEl.style.color = "greenyellow"
+    objectiveEl.innerText = `${victoryPhrase}`;
+    agiProgressEl.src = 'imgs/victory.png'
+    
     lettersGuessed = ['']
     setTimeout(function () {
         init()
@@ -205,3 +232,7 @@ function trackGuesses(guessedLetter) {
     console.log(lettersGuessed)
     lettersGuessedEl.innerText = 'Letters Guessed So Far:' + lettersGuessed.join(' ')
 }
+
+
+//how to stop image from "jumping" when it changes
+//how to add more spacing between separate words in blank form 
