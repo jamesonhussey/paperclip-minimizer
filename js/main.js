@@ -71,6 +71,7 @@ let loss = false
 let lettersGuessed = []
 let lifeBank
 let score = 0
+let victoryPhrase = ''
 
 
 /* -- Cached Element References -- */
@@ -144,7 +145,7 @@ function handleAnswerSubmitClick() {
 
 function copeWithVictory() {
     victory = true
-    let victoryPhrase = ''
+    // let victoryPhrase = ''
     chooseVictoryPhrase()
     console.log('winned')
     score++
@@ -176,8 +177,19 @@ function copeWithDefeat() {
 
 
 function handleGuess(guessedLetter) {
-    guessedLetter = guessedLetter.toString().toLowerCase()
     let guessedIndexes = getAllIndexes(word2GuessArray, guessedLetter)
+    console.log('guessed letter: ' + guessedLetter)
+    if (guessedLetter === ' ') {
+        console.log('inside of if')
+        guessedIndexes.forEach((guessedIndex) => wordProgress.splice(guessedIndex, 1, '      '))
+
+        updateBlanks(wordProgress)
+        trackGuesses(guessedLetter)
+        isThisLoss(word2Guess, wordProgress)
+        return
+    }
+    guessedLetter = guessedLetter.toString().toLowerCase()
+    
     if (guessedIndexes.length >= 1) {
 
         //updates wordProgress to fill in all blanks for guessed letter
@@ -198,7 +210,9 @@ function handleGuess(guessedLetter) {
 }
 
 function updateBlanks(wordSoFar) {
-    wordBlanksEl.innerText = wordSoFar.join('').toUpperCase()
+    console.log(wordSoFar.join(''))
+    wordBlanksEl.textContent = wordSoFar.join('').toUpperCase()
+    
 }
 
 function getAllIndexes(arr, val) {
@@ -233,6 +247,6 @@ function trackGuesses(guessedLetter) {
     lettersGuessedEl.innerText = 'Letters Guessed So Far:' + lettersGuessed.join(' ')
 }
 
-
+//how to get victory message to actually show
 //how to stop image from "jumping" when it changes
 //how to add more spacing between separate words in blank form 
