@@ -1,7 +1,7 @@
 # PAPERCLIP MINIMIZER
 A spaceman/hangman type game with a theme of AI Safety. Guess the words before the Narrow AI assembles into an AGI (Artificial General Intelligence) and wipes out civilization as we know it! You can guess letters or the full answer, but be careful, guessing the full answer incorrectly results in instantly losing the game and the world.
 
-# Screenshot
+# Screenshots
 
 <img src="imgs/game-start.png"> <br>
 Game start <br><br><br>
