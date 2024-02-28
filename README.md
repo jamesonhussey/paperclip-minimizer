@@ -1,5 +1,5 @@
 # <Your Project's Title>
-A description of your game. Background info of the game is a nice touch.
+A spaceman/hangman type game with a theme of AI Safety. Guess the words before the Narrow AI assembles into an AGI (Artificial General Intelligence) and wipes out civilization as we know it! You can guess letters or the full answer, but be careful, guessing the full answer incorrectly results in instantly losing the game.
 
 # Screenshot
 

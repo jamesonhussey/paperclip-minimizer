@@ -231,6 +231,10 @@ function getAllIndexes(arr, val) {
 function isThisLoss() {
     console.log('word2Guess: ' + word2Guess)
     console.log('wordProgress: ' + wordProgress)
+    if (getAllIndexes(wordProgress, '  ').length > 0) {
+        let spacesIndexes = getAllIndexes(wordProgress, '  ')
+        spacesIndexes.forEach((spacesIndex) => wordProgress.splice(spacesIndex, 1, ' '))
+    }
     if (word2Guess.toLowerCase() === wordProgress.join('').toLowerCase()) {
         copeWithVictory()
     }
