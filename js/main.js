@@ -45,19 +45,19 @@ const WORDS_LOOKUP = [
 
 const VICTORY_PHRASE_LOOKUP = [
     'WELL DONE',
-    'VOCTORY',
+    'VICTORY',
     'INEVITABLE: DELAYED',
     'WELL PLAYED',
     'GGEZ',
     'YOU WON !!!',
     'NICE',
     'GOOD JOB',
-    'SLAY, QUEEN',
     'WELL PLAYED',
     'THANK GOD, YOU SAVED THE WORLD',
     'OK',
     'GAME WON',
     'GREAT ENEMY FELLED',
+    'HUMANITY RESTORED',
 ]
 
 
@@ -104,7 +104,7 @@ function init() {
     chooseWord()
     word2GuessArray = Array.from(word2Guess)
     wordProgress = word2GuessArray.slice()
-    wordProgress.fill(' _ ')
+    wordProgress.fill('_')
 
     handleSpaces()
     updateBlanks(wordProgress)
@@ -140,12 +140,14 @@ function handleAnswerSubmitClick() {
         console.log('Guessed answer correctly')
         copeWithVictory()
     }
-
+    else {
+        updateBlanks(["WRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONGWRONG"])
+        copeWithDefeat()
+    }
 }
 
 function copeWithVictory() {
     victory = true
-    // let victoryPhrase = ''
     chooseVictoryPhrase()
     console.log('winned')
     score++
@@ -164,13 +166,16 @@ function copeWithVictory() {
 function copeWithDefeat() {
     loss = true
     console.log('is loss')
+    objectiveEl.innerText = 'Oh NO!!! The AGI made the whole world into paper clips! ): GAME OVER...';
+    objectiveEl.style.color = "darkred"
+    lettersGuessed = ['']
+    answerGuessInputEl.value = ''
     setTimeout(function () {
-        objectiveEl.innerText = 'Oh NO!!! The AGI made the whole world into paper clips! ): GAME OVER...';
-        objectiveEl.style.color = "darkred"
         agiProgressEl.src = 'imgs/paperclip.png'
     }, 3000);
 
     setTimeout(function () {
+        score = 0
         init()
     }, 10000);
 }
@@ -181,7 +186,7 @@ function handleGuess(guessedLetter) {
     console.log('guessed letter: ' + guessedLetter)
     if (guessedLetter === ' ') {
         console.log('inside of if')
-        guessedIndexes.forEach((guessedIndex) => wordProgress.splice(guessedIndex, 1, '      '))
+        guessedIndexes.forEach((guessedIndex) => wordProgress.splice(guessedIndex, 1, '  '))
 
         updateBlanks(wordProgress)
         trackGuesses(guessedLetter)
@@ -244,9 +249,5 @@ function trackGuesses(guessedLetter) {
     lettersGuessed.push(' ')
     lettersGuessed.push(guessedLetter)
     console.log(lettersGuessed)
-    lettersGuessedEl.innerText = 'Letters Guessed So Far:' + lettersGuessed.join(' ')
+    lettersGuessedEl.innerText = 'Letters Guessed So Far:' + lettersGuessed.join('  ')
 }
-
-//how to get victory message to actually show
-//how to stop image from "jumping" when it changes
-//how to add more spacing between separate words in blank form 
