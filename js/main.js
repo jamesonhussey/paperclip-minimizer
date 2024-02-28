@@ -11,8 +11,9 @@ const ITEMS_LOOKUP = {
     },
 }
 
-//is there a way to put this on a different file or something
 const WORDS_LOOKUP = [
+    'i have no mouth and i must scream',
+    'allied mastercomputer',
     'artificial intelligence',
     'large language model',
     'chat gpt',
@@ -40,7 +41,43 @@ const WORDS_LOOKUP = [
     'facial recognition',
     'autonomous weapon systems',
     'hello world',
-    'air gapping'
+    'air gapping',
+    'llama',
+    'machine learning',
+    'nvidia',
+    'artificial super intelligence',
+    'theory of mind',
+    'self aware',
+    'artificial general intelligence',
+    'narrow artificial intelligence',
+    'generative ai',
+    'open source',
+    'open ai',
+    'hugging face',
+    'baby agi',
+    'growth',
+    'moore',
+    'dall e',
+    'midjourney',
+    'stable diffusion',
+    'adobe firefly',
+    'sora',
+    'data',
+    'compute',
+    'meta',
+    'adobe',
+    'google',
+    'progress',
+    'ukraine',
+    'bystander effect',
+    'social media',
+    'revenue',
+    'nsa',
+    'nasa',
+    'artists',
+    'drivers',
+    'developers',
+    'legislators',
 ]
 
 const VICTORY_PHRASE_LOOKUP = [
@@ -113,6 +150,7 @@ function init() {
 
 function chooseWord() {
     word2Guess = WORDS_LOOKUP[Math.floor(Math.random() * WORDS_LOOKUP.length)].toLowerCase()
+    console.log('Answer: ' + word2Guess)
 }
 
 function chooseVictoryPhrase() {
@@ -120,9 +158,7 @@ function chooseVictoryPhrase() {
 }
 
 function updatePicture(livesLost) {
-    console.log(agiProgressEl.src)
     agiProgressEl.src = 'imgs/' + livesLost + '.png'
-    console.log(agiProgressEl.src)
 }
 
 function handleSpaces() {
@@ -137,7 +173,6 @@ function handleLetterSubmitClick() {
 function handleAnswerSubmitClick() {
     if (word2Guess.toLowerCase() === answerGuessInputEl.value.toLowerCase()) {
         updateBlanks(word2GuessArray)
-        console.log('Guessed answer correctly')
         copeWithVictory()
     }
     else {
@@ -149,14 +184,13 @@ function handleAnswerSubmitClick() {
 function copeWithVictory() {
     victory = true
     chooseVictoryPhrase()
-    console.log('winned')
     score++
     scoreCounterEl.innerText = 'Score: ' + score
     answerGuessInputEl.value = ''
     objectiveEl.style.color = "greenyellow"
     objectiveEl.innerText = `${victoryPhrase}`;
     agiProgressEl.src = 'imgs/victory.png'
-    
+
     lettersGuessed = ['']
     setTimeout(function () {
         init()
@@ -165,7 +199,6 @@ function copeWithVictory() {
 
 function copeWithDefeat() {
     loss = true
-    console.log('is loss')
     objectiveEl.innerText = 'Oh NO!!! The AGI made the whole world into paper clips! ): GAME OVER...';
     objectiveEl.style.color = "darkred"
     lettersGuessed = ['']
@@ -183,9 +216,7 @@ function copeWithDefeat() {
 
 function handleGuess(guessedLetter) {
     let guessedIndexes = getAllIndexes(word2GuessArray, guessedLetter)
-    console.log('guessed letter: ' + guessedLetter)
     if (guessedLetter === ' ') {
-        console.log('inside of if')
         guessedIndexes.forEach((guessedIndex) => wordProgress.splice(guessedIndex, 1, '  '))
 
         updateBlanks(wordProgress)
@@ -194,7 +225,7 @@ function handleGuess(guessedLetter) {
         return
     }
     guessedLetter = guessedLetter.toString().toLowerCase()
-    
+
     if (guessedIndexes.length >= 1) {
 
         //updates wordProgress to fill in all blanks for guessed letter
@@ -207,7 +238,6 @@ function handleGuess(guessedLetter) {
     }
     else {
         livesLost++
-        console.log('livesLost: ' + livesLost)
         updatePicture(livesLost)
         trackGuesses(guessedLetter)
         isThisLoss(word2Guess, wordProgress)
@@ -215,9 +245,7 @@ function handleGuess(guessedLetter) {
 }
 
 function updateBlanks(wordSoFar) {
-    console.log(wordSoFar.join(''))
     wordBlanksEl.textContent = wordSoFar.join('').toUpperCase()
-    
 }
 
 function getAllIndexes(arr, val) {
@@ -229,9 +257,11 @@ function getAllIndexes(arr, val) {
 }
 
 function isThisLoss() {
-    console.log('word2Guess: ' + word2Guess)
-    console.log('wordProgress: ' + wordProgress)
     if (getAllIndexes(wordProgress, '  ').length > 0) {
+        //Fixes bug caused by adding more than one space to the displayed array with blanks
+        //which caused the solution and the players correct answer to differ when spaces are
+        //involved and answer is reached letter-by-letter. This changes the answer array back
+        //to using a single space for comparison.
         let spacesIndexes = getAllIndexes(wordProgress, '  ')
         spacesIndexes.forEach((spacesIndex) => wordProgress.splice(spacesIndex, 1, ' '))
     }
@@ -240,8 +270,6 @@ function isThisLoss() {
     }
     else {
         victory = false
-        console.log('No win yet')
-        console.log(livesLost + ' out of ' + lifeBank + ' lives lost.')
     }
     if (livesLost >= lifeBank /* && victory !== true */) {
         copeWithDefeat()
@@ -252,6 +280,5 @@ function isThisLoss() {
 function trackGuesses(guessedLetter) {
     lettersGuessed.push(' ')
     lettersGuessed.push(guessedLetter)
-    console.log(lettersGuessed)
     lettersGuessedEl.innerText = 'Letters Guessed So Far:' + lettersGuessed.join('  ')
 }
