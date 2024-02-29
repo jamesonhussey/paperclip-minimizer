@@ -1,16 +1,4 @@
 /* -- Constants --*/
-const ITEMS_LOOKUP = {
-    bomb: {
-        img: 'bomb.png',
-        lifeCost: 3
-    },
-
-    laser: {
-        img: 'laser.png',
-        lifeCost: 2
-    },
-}
-
 const WORDS_LOOKUP = [
     'i have no mouth and i must scream',
     'allied mastercomputer',
@@ -112,6 +100,9 @@ let lifeBank
 let score = 0
 let victoryPhrase = ''
 let word2GuessArray = []
+let bombActive = false
+let laserActive = false
+let immortal = false
 
 /* -- Cached Element References -- */
 const wordBlanksEl = document.querySelector('#letters-to-guess')
@@ -123,12 +114,14 @@ const agiProgressEl = document.querySelector('#agi-progress > img')
 const scoreCounterEl = document.querySelector('#agi-progress > aside')
 const lettersGuessedEl = document.querySelector('#letters-already-guessed')
 const objectiveEl = document.querySelector('#objective')
+const bombIconEl = document.querySelector('#bomb-icon')
 
 
 /* -- Event Listeners -- */
 
 letterGuessButtonEl.addEventListener('click', handleLetterSubmitClick)
 answerGuessButtonEl.addEventListener('click', handleAnswerSubmitClick)
+bombIconEl.addEventListener('click', handleBombClick)
 
 /* -- Functions -- */
 
@@ -217,6 +210,12 @@ function copeWithDefeat() {
 
 
 function handleGuess(guessedLetter) {
+    if (bombActive === true) {
+        bombActive = false
+        immortal = true
+        useBomb(guessedLetter)
+        immortal = false
+    }
     let guessedIndexes = getAllIndexes(word2GuessArray, guessedLetter)
     if (guessedLetter === ' ') {
         guessedIndexes.forEach((guessedIndex) => wordProgress.splice(guessedIndex, 1, '  '))
@@ -239,10 +238,13 @@ function handleGuess(guessedLetter) {
 
     }
     else {
-        livesLost++
-        updatePicture(livesLost)
-        trackGuesses(guessedLetter)
-        isThisLoss(word2Guess, wordProgress)
+        if (immortal = true) {}
+        else {
+            livesLost++
+            updatePicture(livesLost)
+            trackGuesses(guessedLetter)
+            isThisLoss(word2Guess, wordProgress)
+        }
     }
 }
 
@@ -286,7 +288,31 @@ function trackGuesses(guessedLetter) {
 
 function useBomb(bombedLetter) {
     //Find index of bombed letter in QWERTY_LOOKUP array
+    let bombedIdx = QWERTY_LOOKUP.indexOf(bombedLetter)
     //Find indexes of letters around it by subtracting or adding to that index
     //Guess the values at those indexes (the letters themselves)
+    handleGuess(bombedLetter)
+    handleGuess(QWERTY_LOOKUP[bombedIdx - 10])
+    handleGuess(QWERTY_LOOKUP[bombedIdx - 9])
+    handleGuess(QWERTY_LOOKUP[bombedIdx + 1])
+    handleGuess(QWERTY_LOOKUP[bombedIdx - 1])
+    handleGuess(QWERTY_LOOKUP[bombedIdx + 9])
+    handleGuess(QWERTY_LOOKUP[bombedIdx + 10])
     //Remove two lives
+    livesLost += 2
+    bombIconEl.style.backgroundColor = 'grey'
+    updatePicture(livesLost)
+    trackGuesses(bombedLetter)
+    trackGuesses(QWERTY_LOOKUP[bombedIdx - 10])
+    trackGuesses(QWERTY_LOOKUP[bombedIdx - 9])
+    trackGuesses(QWERTY_LOOKUP[bombedIdx + 1])
+    trackGuesses(QWERTY_LOOKUP[bombedIdx - 1])
+    trackGuesses(QWERTY_LOOKUP[bombedIdx + 9])
+    trackGuesses(QWERTY_LOOKUP[bombedIdx + 10])
+    isThisLoss(word2Guess, wordProgress)
+}
+
+function handleBombClick() {
+    bombActive = true
+    bombIconEl.style.backgroundColor = 'orange'
 }

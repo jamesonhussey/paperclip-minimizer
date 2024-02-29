@@ -105,3 +105,14 @@ body {
   background-color: #0039D7;
   border-color: #0039D7;
 }
+
+#item-shop > img {
+    background-color: grey;
+    width: 50px;
+    padding: 10px;
+    margin: 10px;
+}
+
+#item-shop > img:hover {
+    background-color: rgb(61, 61, 61);
+}
