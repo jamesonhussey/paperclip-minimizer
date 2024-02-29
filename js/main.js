@@ -97,6 +97,8 @@ const VICTORY_PHRASE_LOOKUP = [
     'HUMANITY RESTORED',
 ]
 
+const QWERTY_LOOKUP = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/',]
+
 
 /* -- State Variables -- */
 
@@ -109,7 +111,7 @@ let lettersGuessed = []
 let lifeBank
 let score = 0
 let victoryPhrase = ''
-
+let word2GuessArray = []
 
 /* -- Cached Element References -- */
 const wordBlanksEl = document.querySelector('#letters-to-guess')
@@ -276,9 +278,15 @@ function isThisLoss() {
     }
 }
 
-
 function trackGuesses(guessedLetter) {
     lettersGuessed.push(' ')
     lettersGuessed.push(guessedLetter)
     lettersGuessedEl.innerText = 'Letters Guessed So Far:' + lettersGuessed.join('  ')
+}
+
+function useBomb(bombedLetter) {
+    //Find index of bombed letter in QWERTY_LOOKUP array
+    //Find indexes of letters around it by subtracting or adding to that index
+    //Guess the values at those indexes (the letters themselves)
+    //Remove two lives
 }
