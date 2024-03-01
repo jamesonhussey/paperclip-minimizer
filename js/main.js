@@ -137,6 +137,7 @@ function init() {
     chooseWord()
     word2GuessArray = Array.from(word2Guess)
     wordProgress = word2GuessArray.slice()
+    //displays blanks
     wordProgress.fill('_')
 
     handleSpaces()
@@ -264,9 +265,6 @@ function getAllIndexes(arr, val) {
 function isThisLoss() {
     if (getAllIndexes(wordProgress, '  ').length > 0) {
         //Fixes bug caused by adding more than one space to the displayed array with blanks
-        //which caused the solution and the players correct answer to differ when spaces are
-        //involved and answer is reached letter-by-letter. This changes the answer array back
-        //to using a single space for comparison.
         let spacesIndexes = getAllIndexes(wordProgress, '  ')
         spacesIndexes.forEach((spacesIndex) => wordProgress.splice(spacesIndex, 1, ' '))
     }
