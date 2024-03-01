@@ -239,7 +239,7 @@ function handleGuess(guessedLetter) {
 
     }
     else {
-        if (immortal === true) {}
+        if (immortal === true) { }
         else {
             livesLost++
             updatePicture(livesLost)
@@ -292,13 +292,13 @@ function useBomb(bombedLetter) {
     //Find indexes of letters around bombed letter by subtracting or adding to that index and guess the values at those indexes.
     handleGuess(bombedLetter)
     //If statements protect bombing letter Q
-    if((bombedIdx - 10) >=0) {handleGuess(QWERTY_LOOKUP[bombedIdx - 10])}
-    if((bombedIdx - 9) >=0) {handleGuess(QWERTY_LOOKUP[bombedIdx - 9])}
-    if((bombedIdx - 1) >=0) {handleGuess(QWERTY_LOOKUP[bombedIdx - 1])}
+    if ((bombedIdx - 10) >= 0) { handleGuess(QWERTY_LOOKUP[bombedIdx - 10]) }
+    if ((bombedIdx - 9) >= 0) { handleGuess(QWERTY_LOOKUP[bombedIdx - 9]) }
+    if ((bombedIdx - 1) >= 0) { handleGuess(QWERTY_LOOKUP[bombedIdx - 1]) }
 
-    if((bombedIdx + 1) <= QWERTY_LOOKUP.length -1) {handleGuess(QWERTY_LOOKUP[bombedIdx + 1])}
-    if((bombedIdx + 9) <= QWERTY_LOOKUP.length -1) {handleGuess(QWERTY_LOOKUP[bombedIdx + 9])}
-    if((bombedIdx + 10) <= QWERTY_LOOKUP.length -1) {handleGuess(QWERTY_LOOKUP[bombedIdx + 10])}
+    if ((bombedIdx + 1) <= QWERTY_LOOKUP.length - 1) { handleGuess(QWERTY_LOOKUP[bombedIdx + 1]) }
+    if ((bombedIdx + 9) <= QWERTY_LOOKUP.length - 1) { handleGuess(QWERTY_LOOKUP[bombedIdx + 9]) }
+    if ((bombedIdx + 10) <= QWERTY_LOOKUP.length - 1) { handleGuess(QWERTY_LOOKUP[bombedIdx + 10]) }
 
     livesLost += 2
     bombIconEl.style.backgroundColor = 'grey'
