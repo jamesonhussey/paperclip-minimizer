@@ -133,6 +133,7 @@ function init() {
 
     lifeBank = 8
     livesLost = 0
+    bombActive = false
     chooseWord()
     word2GuessArray = Array.from(word2Guess)
     wordProgress = word2GuessArray.slice()
@@ -161,7 +162,7 @@ function handleSpaces() {
 }
 
 function handleLetterSubmitClick() {
-    handleGuess(letterGuessInputEl.value.toString())
+    handleGuess(letterGuessInputEl.value.toString().toLowerCase())
     letterGuessInputEl.value = ''
 }
 
@@ -238,7 +239,7 @@ function handleGuess(guessedLetter) {
 
     }
     else {
-        if (immortal = true) {}
+        if (immortal === true) {}
         else {
             livesLost++
             updatePicture(livesLost)
@@ -287,18 +288,18 @@ function trackGuesses(guessedLetter) {
 }
 
 function useBomb(bombedLetter) {
-    //Find index of bombed letter in QWERTY_LOOKUP array
     let bombedIdx = QWERTY_LOOKUP.indexOf(bombedLetter)
-    //Find indexes of letters around it by subtracting or adding to that index
-    //Guess the values at those indexes (the letters themselves)
+    //Find indexes of letters around bombed letter by subtracting or adding to that index and guess the values at those indexes.
     handleGuess(bombedLetter)
-    handleGuess(QWERTY_LOOKUP[bombedIdx - 10])
-    handleGuess(QWERTY_LOOKUP[bombedIdx - 9])
-    handleGuess(QWERTY_LOOKUP[bombedIdx + 1])
-    handleGuess(QWERTY_LOOKUP[bombedIdx - 1])
-    handleGuess(QWERTY_LOOKUP[bombedIdx + 9])
-    handleGuess(QWERTY_LOOKUP[bombedIdx + 10])
-    //Remove two lives
+    //If statements protect bombing letter Q
+    if((bombedIdx - 10) >=0) {handleGuess(QWERTY_LOOKUP[bombedIdx - 10])}
+    if((bombedIdx - 9) >=0) {handleGuess(QWERTY_LOOKUP[bombedIdx - 9])}
+    if((bombedIdx - 1) >=0) {handleGuess(QWERTY_LOOKUP[bombedIdx - 1])}
+
+    if((bombedIdx + 1) <= QWERTY_LOOKUP.length -1) {handleGuess(QWERTY_LOOKUP[bombedIdx + 1])}
+    if((bombedIdx + 9) <= QWERTY_LOOKUP.length -1) {handleGuess(QWERTY_LOOKUP[bombedIdx + 9])}
+    if((bombedIdx + 10) <= QWERTY_LOOKUP.length -1) {handleGuess(QWERTY_LOOKUP[bombedIdx + 10])}
+
     livesLost += 2
     bombIconEl.style.backgroundColor = 'grey'
     updatePicture(livesLost)

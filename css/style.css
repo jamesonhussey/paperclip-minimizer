@@ -106,13 +106,25 @@ body {
   border-color: #0039D7;
 }
 
-#item-shop > img {
-    background-color: grey;
+#item-shop {
     width: 50px;
-    padding: 10px;
-    margin: 10px;
 }
 
-#item-shop > img:hover {
+#item-shop > picture {
+    background-color: grey;
+    width: 50px;
+    /* padding: 10px; */
+    /* margin: 10px; */
+}
+
+#bomb-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: gray;
+}
+
+#item-shop > picture:hover {
     background-color: rgb(61, 61, 61);
 }
